@@ -25,7 +25,9 @@ int main(void){
 			printf("%s",signal);//debug
 		}//debug
 		j++;//debug
-		sum +=num;
+		if(num1!='a'){
+			sum +=num;
+		}
 	}
 	printf("%d\n",sum);
 }
