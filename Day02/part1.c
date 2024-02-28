@@ -27,7 +27,7 @@ int main(void){
 				}
 				if(num==-1){
 					num=(int)signal[5]-48;
-				}else if(num/10!=0){
+				}else if(signal[7]!=':'&&signal[7]!=' '){
 					num+=((int)signal[5]-48)*100;
 				}else{
 					num+=((int)signal[5]-48)*10;
