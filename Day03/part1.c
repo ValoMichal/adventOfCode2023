@@ -47,6 +47,7 @@ int main(void){
 				while((i+3-boundary)>(strlen(signal))){
 					boundary++;
 				}
+				for(;j<=3-boundary;j++){
 					if(prev[i+j]>='0'&&prev[i+j]<='9'){
 						strncat(num,&prev[i+j],1);
 					}else if(j==-1){
@@ -69,6 +70,7 @@ int main(void){
 				while((i+j)<0){
 					j++;
 				}
+				for(;j<0;j++){
 					if(signal[i+j]>='0'&&signal[i+j]<='9'){
 						strncat(num,&signal[i+j],1);
 					}else{
