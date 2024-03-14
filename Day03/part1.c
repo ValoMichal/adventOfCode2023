@@ -11,26 +11,16 @@ int main(void){
 	fgets(signal,size,input);
 	fgets(prev,size,input);
 	while(fgets(signal,size,input)){
-		for(int i=1;i<strlen(signal)-1;i++){//!!! add limit to array calls with +j so they dont go out of bound (just add if i+j>size)
+		for(int i=1;i<strlen(signal)-1;i++){
 			if(prev[i]!='.'&&(prev[i]<'0'||prev[i]>'9')&&((signal[i-1]>='0'&&signal[i-1]<='9')||(signal[i]>='0'&&signal[i]<='9')||(signal[i+1]>='0'&&signal[i+1]<='9'))){//check numbers above
 				int j=-3;
 				while((i+j)<0){
 					j++;
 				}
-				while((i+3-boundary)>(strlen(signal))){//necita to prvy riadok a cisla na boku riadku
+				while((i+3-boundary)>(strlen(signal))){//first line being ignored
 					boundary++;
 				}
-				for(;j<=3-boundary;j++){//ERROR sum took even numbers not near symbol, prop bug here, the if statements are weird
-					/*
-					if(signal[i+j]>='0'&&signal[i+j]<='9'){
-						strncat(num,&signal[i+j],1);
-					}else if(j<0){
-						strcpy(num,"0");
-					}else if(j==0&&signal[i+j+1]>='0'&&signal[i+j+1]<='9'){
-						sum+=atoi(num);
-						strcpy(num,"0");
-					}
-					*/
+				for(;j<=3-boundary;j++){
 					if(signal[i+j]>='0'&&signal[i+j]<='9'){
 						strncat(num,&signal[i+j],1);
 					}else if(j==-1){
@@ -57,17 +47,6 @@ int main(void){
 				while((i+3-boundary)>(strlen(signal))){
 					boundary++;
 				}
-				for(;j<=3-boundary;j++){
-					/*
-					if(prev[i+j]>='0'&&prev[i+j]<='9'){
-						strncat(num,&prev[i+j],1);
-					}else if(j<0){
-						strcpy(num,"0");
-					}else if(j==0&&prev[i+j+1]>='0'&&prev[i+j+1]<='9'){
-						sum+=atoi(num);
-						strcpy(num,"0");
-					}
-					*/
 					if(prev[i+j]>='0'&&prev[i+j]<='9'){
 						strncat(num,&prev[i+j],1);
 					}else if(j==-1){
@@ -90,20 +69,9 @@ int main(void){
 				while((i+j)<0){
 					j++;
 				}
-				for(;j<0;j++){
-				/*
-					if(prev[i+j]>='0'&&prev[i+j]<='9'){
-						strncat(num,&prev[i+j],1);
+					if(signal[i+j]>='0'&&signal[i+j]<='9'){
+						strncat(num,&signal[i+j],1);
 					}else{
-						strcpy(num,"0");
-					}
-				*/
-					if(prev[i+j]>='0'&&prev[i+j]<='9'){
-						strncat(num,&prev[i+j],1);
-						if(j==-1){
-							sum+=atoi(num);
-						}
-					}else if(j==-1){
 						strcpy(num,"0");
 					}
 				}
@@ -115,14 +83,7 @@ int main(void){
 				while((i+3-boundary)>(strlen(signal))){
 					boundary++;
 				}
-				for(int j=1;j>=3-boundary;j++){
-				/*
-					if(prev[i+j]>='0'&&prev[i+j]<='9'){
-						strncat(num,&prev[i+j],1);
-					}else{
-						break;
-					}
-				*/
+				for(int j=1;j<=3-boundary;j++){
 					if(signal[i+j]>='0'&&signal[i+j]<='9'){
 						strncat(num,&signal[i+j],1);
 					}else{
