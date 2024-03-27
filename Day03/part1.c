@@ -7,8 +7,7 @@ int main(void){
 	input=fopen("input.txt","r");
 	int sum=0,boundary=0;
 	char num[5]="0",prev[size]="",signal[size]="";
-	int j=0;//debug
-	fgets(signal,size,input);
+	int debugger=0,debug=1;//debug
 	fgets(prev,size,input);
 	while(fgets(signal,size,input)){
 		for(int i=1;i<strlen(signal)-1;i++){
@@ -17,19 +16,25 @@ int main(void){
 				while((i+j)<0){
 					j++;
 				}
-				while((i+3-boundary)>(strlen(signal))){//first line being ignored
+				while((i+3-boundary)>(strlen(signal))){
 					boundary++;
 				}
 				for(;j<=3-boundary;j++){
 					if(signal[i+j]>='0'&&signal[i+j]<='9'){
 						strncat(num,&signal[i+j],1);
-					}else if(j==-1){
+					}else if(j<=-1){
 						strcpy(num,"0");
 					}else if(j==0){
 						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
 					}else if(j>0){
 						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
 						break;
 					}
@@ -37,6 +42,9 @@ int main(void){
 				}
 				boundary=0;
 				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 				strcpy(num,"0");
 			}
 			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&((prev[i-1]>='0'&&prev[i-1]<='9')||(prev[i]>='0'&&prev[i]<='9')||(prev[i+1]>='0'&&prev[i+1]<='9'))){//check numbers bellow
@@ -50,19 +58,28 @@ int main(void){
 				for(;j<=3-boundary;j++){
 					if(prev[i+j]>='0'&&prev[i+j]<='9'){
 						strncat(num,&prev[i+j],1);
-					}else if(j==-1){
+					}else if(j<=-1){
 						strcpy(num,"0");
 					}else if(j==0){
 						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
 					}else if(j>0){
 						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
 						break;
 					}
 				}
 				boundary=0;
 				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 				strcpy(num,"0");
 			}
 			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i-1]>='0'&&signal[i-1]<='9')){//check numbers on left
@@ -78,6 +95,9 @@ int main(void){
 					}
 				}
 				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 				strcpy(num,"0");
 			}
 			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i+1]>='0'&&signal[i+1]<='9')){//check numbers on right
@@ -90,22 +110,31 @@ int main(void){
 						strncat(num,&signal[i+j],1);
 					}else{
 						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
 						break;
 					}
 				}
 				boundary=0;
 				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 				strcpy(num,"0");
 			}
 		}
 		strcpy(prev,signal);//copy old line before getting new line
 
-		if(j<100){//debug
+		if(debugger<5){//debug
 			printf("%d ",sum);//debug
 			printf("%s",signal);//debug
+			debug=1;
+		}else{//debug
+			debug=0;//debug
 		}//debug
-		j++;//debug
+		debugger++;//debug
 	}
 	printf("%d\n",sum);
 }

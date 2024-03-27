@@ -1,100 +1,140 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define size 256
+#define size 255
 int main(void){
 	FILE *input;
 	input=fopen("input.txt","r");
 	int sum=0,boundary=0;
 	char num[5]="0",prev[size]="",signal[size]="";
-	int j=0;//debug
-	fgets(signal,size,input);
+	int debugger=0,debug=1;//debug
 	fgets(prev,size,input);
 	while(fgets(signal,size,input)){
-		for(int i=1;i<strlen(signal)-1;i++){//!!! add limit to array calls with +j so they dont go out of bound (just add if i+j>size)
+		for(int i=1;i<strlen(signal)-1;i++){
 			if(prev[i]!='.'&&(prev[i]<'0'||prev[i]>'9')&&((signal[i-1]>='0'&&signal[i-1]<='9')||(signal[i]>='0'&&signal[i]<='9')||(signal[i+1]>='0'&&signal[i+1]<='9'))){//check numbers above
 				int j=-3;
-				while((i-j)<1){
+				while((i+j)<0){
 					j++;
 				}
-				while((i+j)>(strlen(signal)-1)){
+				while((i+3-boundary)>(strlen(signal))){
 					boundary++;
 				}
 				for(;j<=3-boundary;j++){
 					if(signal[i+j]>='0'&&signal[i+j]<='9'){
 						strncat(num,&signal[i+j],1);
-					}else if(j<0){
+					}else if(j<=-1){
 						strcpy(num,"0");
-					}else if(j==0&&signal[i+j+1]>='0'&&signal[i+j+1]<='9'){
+					}else if(j==0){
 						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
+					}else if(j>0){
+						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
+						strcpy(num,"0");
+						break;
 					}
+					
 				}
 				boundary=0;
 				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 				strcpy(num,"0");
 			}
 			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&((prev[i-1]>='0'&&prev[i-1]<='9')||(prev[i]>='0'&&prev[i]<='9')||(prev[i+1]>='0'&&prev[i+1]<='9'))){//check numbers bellow
 				int j=-3;
-				while((i-j)<1){
+				while((i+j)<0){
 					j++;
 				}
-				while((i+j)>(strlen(signal)-1)){
+				while((i+3-boundary)>(strlen(signal))){
 					boundary++;
 				}
 				for(;j<=3-boundary;j++){
 					if(prev[i+j]>='0'&&prev[i+j]<='9'){
 						strncat(num,&prev[i+j],1);
-					}else if(j<0){
+					}else if(j<=-1){
 						strcpy(num,"0");
-					}else if(j==0&&prev[i+j+1]>='0'&&prev[i+j+1]<='9'){
+					}else if(j==0){
 						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
-					}
-				}
-				boundary=0;
-				sum+=atoi(num);
-				strcpy(num,"0");
-			}
-			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i-1]>='0'&&signal[i-1]<='9')){//check numbers on left
-				int j=-3;
-				while((i-j)<1){
-					j++;
-				}
-				for(;j<0;j++){
-					if(prev[i+j]>='0'&&prev[i+j]<='9'){
-						strncat(num,&prev[i+j],1);
-					}else{
+					}else if(j>0){
+						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 						strcpy(num,"0");
-					}
-				}
-				sum+=atoi(num);
-				strcpy(num,"0");
-			}
-			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i+1]>='0'&&signal[i+1]<='9')){//check numbers on right
-				int j=1;
-				while((i+j)>(strlen(signal)-1)){
-					boundary++;
-				}
-				for(int j=1;j>=3-boundary;j++){
-					if(prev[i+j]>='0'&&prev[i+j]<='9'){
-						strncat(num,&prev[i+j],1);
-					}else{
 						break;
 					}
 				}
 				boundary=0;
 				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
+				strcpy(num,"0");
+			}
+			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i-1]>='0'&&signal[i-1]<='9')){//check numbers on left
+				int j=-3;
+				while((i+j)<0){
+					j++;
+				}
+				for(;j<0;j++){
+					if(signal[i+j]>='0'&&signal[i+j]<='9'){
+						strncat(num,&signal[i+j],1);
+					}else{
+						strcpy(num,"0");
+					}
+				}
+				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
+				strcpy(num,"0");
+			}
+			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i+1]>='0'&&signal[i+1]<='9')){//check numbers on right
+				int j=1;
+				while((i+3-boundary)>(strlen(signal))){
+					boundary++;
+				}
+				for(int j=1;j<=3-boundary;j++){
+					if(signal[i+j]>='0'&&signal[i+j]<='9'){
+						strncat(num,&signal[i+j],1);
+					}else{
+						sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
+						strcpy(num,"0");
+						break;
+					}
+				}
+				boundary=0;
+				sum+=atoi(num);
+						if(debug){
+						printf("\n%s\n",num);//debug
+						}
 				strcpy(num,"0");
 			}
 		}
 		strcpy(prev,signal);//copy old line before getting new line
 
-		if(j<10){//debug
+		if(debugger<5){//debug
 			printf("%d ",sum);//debug
 			printf("%s",signal);//debug
+			debug=1;
+		}else{//debug
+			debug=0;//debug
 		}//debug
-		j++;//debug
+		debugger++;//debug
 	}
 	printf("%d\n",sum);
 }
