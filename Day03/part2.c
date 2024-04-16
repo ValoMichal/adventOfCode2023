@@ -11,7 +11,7 @@ int main(void){
 	fgets(prev,size,input);
 	while(fgets(signal,size,input)){
 		for(int i=1;i<strlen(signal)-1;i++){
-			if(prev[i]!='.'&&(prev[i]<'0'||prev[i]>'9')&&((signal[i-1]>='0'&&signal[i-1]<='9')||(signal[i]>='0'&&signal[i]<='9')||(signal[i+1]>='0'&&signal[i+1]<='9'))){//check numbers above
+			if(prev[i]=='*'&&((signal[i-1]>='0'&&signal[i-1]<='9')||(signal[i]>='0'&&signal[i]<='9')||(signal[i+1]>='0'&&signal[i+1]<='9'))){//check numbers above
 				int j=-3;
 				while((i+j)<0){
 					j++;
@@ -47,7 +47,7 @@ int main(void){
 						}
 				strcpy(num,"0");
 			}
-			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&((prev[i-1]>='0'&&prev[i-1]<='9')||(prev[i]>='0'&&prev[i]<='9')||(prev[i+1]>='0'&&prev[i+1]<='9'))){//check numbers bellow
+			if(signal[i]=='*'&&((prev[i-1]>='0'&&prev[i-1]<='9')||(prev[i]>='0'&&prev[i]<='9')||(prev[i+1]>='0'&&prev[i+1]<='9'))){//check numbers bellow
 				int j=-3;
 				while((i+j)<0){
 					j++;
@@ -82,7 +82,7 @@ int main(void){
 						}
 				strcpy(num,"0");
 			}
-			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i-1]>='0'&&signal[i-1]<='9')){//check numbers on left
+			if(signal[i]=='*'&&(signal[i-1]>='0'&&signal[i-1]<='9')){//check numbers on left
 				int j=-3;
 				while((i+j)<0){
 					j++;
@@ -100,7 +100,7 @@ int main(void){
 						}
 				strcpy(num,"0");
 			}
-			if(signal[i]!='.'&&(signal[i]<'0'||signal[i]>'9')&&(signal[i+1]>='0'&&signal[i+1]<='9')){//check numbers on right
+			if(signal[i]=='*'&&(signal[i+1]>='0'&&signal[i+1]<='9')){//check numbers on right
 				int j=1;
 				while((i+3-boundary)>(strlen(signal))){
 					boundary++;
@@ -127,7 +127,7 @@ int main(void){
 		}
 		strcpy(prev,signal);//copy old line before getting new line
 
-		if(debugger<5){//debug
+		if(debugger<15){//debug
 			printf("%d ",sum);//debug
 			printf("%s",signal);//debug
 			debug=1;
